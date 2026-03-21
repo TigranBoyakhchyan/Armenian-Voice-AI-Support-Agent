@@ -1,0 +1,49 @@
+{
+  "banks": [
+    {
+      "name": "Ameriabank",
+      "enabled": true,
+      "pages": {
+        "credits": [
+          "https://ameriabank.am/personal/loans"
+        ],
+        "deposits": [
+          "https://ameriabank.am/personal/saving/deposits/ameria-deposit"
+        ],
+        "branches": [
+          "https://ameriabank.am/en/service-network"
+        ]
+      }
+    },
+    {
+      "name": "FastBank",
+      "enabled": true,
+      "pages": {
+        "credits": [
+          "https://www.fastbank.am/hy/individual/loans"
+        ],
+        "deposits": [
+          "https://www.fastbank.am/hy/individual/deposits"
+        ],
+        "branches": [
+          "https://www.rate.am/hy/bank/fast-bank"
+        ]
+      }
+    },
+    {
+      "name": "Inecobank",
+      "enabled": true,
+      "pages": {
+        "credits": [
+          "https://www.inecobank.am/hy/Individual/consumer-loans"
+        ],
+        "deposits": [
+          "https://www.inecobank.am/hy/Individual/Deposits"
+        ],
+        "branches": [
+          "https://www.rate.am/hy/bank/inecobank"
+        ]
+      }
+    }
+  ]
+}

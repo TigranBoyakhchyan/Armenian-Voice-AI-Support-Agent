@@ -1,0 +1,9 @@
+livekit-agents
+livekit-api
+livekit-plugins-openai
+livekit-plugins-silero
+openai
+playwright
+python-dotenv
+requests
+beautifulsoup4
