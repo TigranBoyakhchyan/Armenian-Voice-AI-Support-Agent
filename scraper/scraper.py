@@ -87,6 +87,64 @@ async def scrape_page(page, url: str, max_chars: int = 5000) -> str:
 
     return combined
 
+async def scrape_map_page(page, url: str) -> str:
+    """
+    Special scraper for pages that load branch data via API.
+    Intercepts network requests to find the JSON data endpoint.
+    """
+    api_data = []
+
+    # intercept all network responses
+    async def handle_response(response):
+        # look for JSON responses that might contain branch data
+        if (response.status == 200 and
+                "json" in response.headers.get("content-type", "")):
+            try:
+                data = await response.json()
+                text = str(data)
+                # check if it looks like branch data
+                keywords = ["address", "հասցե", "branch", "մասնաճյուղ",
+                           "phone", "հեռախոս", "lat", "lng", "location"]
+                if any(kw in text.lower() for kw in keywords):
+                    if len(text) > 200:
+                        api_data.append(text)
+                        print(f"  Intercepted API response: {response.url}")
+            except Exception:
+                pass
+
+    page.on("response", handle_response)
+
+    try:
+        await page.goto(url, wait_until="networkidle", timeout=30000)
+        # click the list view button if it exists
+        list_btn_selectors = [
+            "button[data-view='list']",
+            ".list-view-btn",
+            "[class*='list']",
+            "button:has-text('ցուցակ')",
+            "button:has-text('Ցուցակ')",
+        ]
+        for selector in list_btn_selectors:
+            try:
+                btn = await page.query_selector(selector)
+                if btn:
+                    await btn.click()
+                    await page.wait_for_timeout(2000)
+                    print(f"  Clicked list view button: {selector}")
+                    break
+            except Exception:
+                pass
+
+        await page.wait_for_timeout(3000)
+    except Exception as e:
+        print(f"  Failed to load {url}: {e}")
+
+    page.remove_listener("response", handle_response)
+
+    if api_data:
+        return "\n".join(api_data)[:5000]
+    return ""
+
 async def scrape_all_banks(config_path: str = "banks_config.json") -> str:
     """
     Scrape all enabled banks from config and return one combined string.

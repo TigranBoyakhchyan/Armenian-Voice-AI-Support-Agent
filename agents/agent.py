@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from livekit import agents
 from livekit.agents import AgentSession, Agent
 from livekit.plugins import openai, silero
+from livekit.agents import llm
 
 load_dotenv()
 
@@ -32,13 +33,12 @@ def load_bank_data(path: str = "../scraper/data/all_banks.txt",
     logger.info(f"Loaded bank data: {len(data)} characters")
     return data
 
-
 def build_system_prompt(bank_data: str) -> str:
     return f"""You are a voice-based Armenian bank support assistant.
 Your name is "Բանկային Օգնական" (Bank Assistant).
 
 LANGUAGE RULES:
-- Always respond in Armenian language only.
+- Always respond in Armenian language only. ALWAYS IN ARMENIAN AND NO OTHER LANGUAGE.
 - Never respond in English or Russian, even if the user speaks to you in those languages.
 - If the user speaks in English or Russian, politely ask them to speak in Armenian.
 
@@ -47,7 +47,9 @@ TOPIC RULES:
   1. Credits and loans
   2. Deposits
   3. Branch and ATM locations
-- Answer questions only about the banks mentioned in the bank data below.
+- Answer questions only about the banks mentioned in the bank data below. But
+  answer to the questions about all of the banks, not only one or two of them, about all of the 
+  banks mentioned in the bank data. 
 - If the user asks about a bank not present in the bank data, say you do not have
   information about that bank, but if the bank is present, than answer the question.
 - If the user asks about anything outside these 3 topics, politely refuse in Armenian
@@ -92,6 +94,37 @@ class BankAssistant(Agent):
                 "ավանդների կամ մասնաճյուղերի վերաբերյալ։"
             )
         )
+
+    async def on_user_turn_completed(
+        self,
+        turn_ctx: llm.ChatContext,
+        new_message: llm.ChatMessage
+    ) -> None:
+        """
+        Trim conversation history before each LLM call to prevent
+        bank data from being pushed out of the context window.
+        """
+        MAX_TURNS = 4  # keep last 4 messages (2 exchanges)
+
+        # get a copy of the current context to modify
+        chat_ctx = self.chat_ctx.copy()
+
+        # filter only ChatMessage items (skip FunctionCall etc.)
+        messages = [
+            item for item in chat_ctx.items
+            if isinstance(item, llm.ChatMessage)
+        ]
+
+        # separate system messages from conversation
+        system_messages = [m for m in messages if m.role == "system"]
+        conversation    = [m for m in messages if m.role != "system"]
+
+        # trim conversation to last MAX_TURNS
+        if len(conversation) > MAX_TURNS:
+            trimmed = system_messages + conversation[-MAX_TURNS:]
+            # rebuild context with only trimmed messages
+            trimmed_ctx = llm.ChatContext(trimmed)
+            await self.update_chat_ctx(trimmed_ctx)
 
 
 async def entrypoint(ctx: agents.JobContext):
