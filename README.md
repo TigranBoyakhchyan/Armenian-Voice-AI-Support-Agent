@@ -258,7 +258,7 @@ python gen_token.py
 
 Copy the long token string that is printed.
 
-### Step 8 — Connect via browser
+### Step 7 — Connect via browser
 
 1. Open [agents-playground.livekit.io](https://agents-playground.livekit.io) in Chrome
 2. Set **LiveKit URL** to `ws://localhost:7880`
@@ -300,19 +300,6 @@ python scraper.py
 ```
 
 No other code changes needed anywhere. To temporarily disable a bank without deleting it, set `"enabled": false`.
-
-### Special URL types
-
-**Map-based branch pages** — if a bank's branch page uses an interactive map instead of a list, use the map scraper flag:
-
-```json
-"branches": [
-  {
-    "url": "https://somebank.am/hy/map/branches",
-    "use_map_scraper": true
-  }
-]
-```
 
 ---
 
