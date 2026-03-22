@@ -1,32 +1,39 @@
 {
   "banks": [
     {
-      "name": "Ameriabank",
+      "name": "Amio Bank",
       "enabled": true,
       "pages": {
         "credits": [
-          "https://ameriabank.am/personal/loans"
+          "https://amiobank.am/loans/consumer-loans",
+          "https://amiobank.am/loans/mortgage-loans",
+          "https://amiobank.am/loans/car-loans"
         ],
         "deposits": [
-          "https://ameriabank.am/personal/saving/deposits/ameria-deposit"
+          "https://www.amiobank.am/savings/deposits"
         ],
         "branches": [
-          "https://ameriabank.am/en/service-network"
+          "https://amiobank.am/offices"
         ]
       }
     },
     {
-      "name": "FastBank",
+      "name": "Ameriabank",
       "enabled": true,
       "pages": {
         "credits": [
-          "https://www.fastbank.am/hy/individual/loans"
+          "https://ameriabank.am/loans/consumer-loans",
+          "https://ameriabank.am/personal/loans/consumer-loans/consumer-loans",
+          "https://ameriabank.am/personal/loans/consumer-loans/overdraft",
+          "https://ameriabank.am/personal/loans/consumer-loans/credit-line",
+          "https://ameriabank.am/personal/loans/mortgage-loans",
+          "https://ameriabank.am/personal/loans/car-loans"
         ],
         "deposits": [
-          "https://www.fastbank.am/hy/individual/deposits"
+          "https://ameriabank.am/personal/saving/deposits/see-all"
         ],
         "branches": [
-          "https://www.rate.am/hy/bank/fast-bank"
+          "https://ameriabank.am/service-network"
         ]
       }
     },
@@ -35,13 +42,20 @@
       "enabled": true,
       "pages": {
         "credits": [
-          "https://www.inecobank.am/hy/Individual/consumer-loans"
+          "https://www.inecobank.am/hy/Individual/consumer-loans",
+          "https://www.inecobank.am/hy/Individual/consumer-loans/1-click",
+          "https://www.inecobank.am/hy/Individual/consumer-loans/1-click/terms",
+          "https://www.inecobank.am/hy/Individual/consumer-loans/secured-consumer-loan",
+          "https://www.inecobank.am/hy/Individual/consumer-loans/secured-consumer-loan/terms",
+          "https://www.inecobank.am/hy/Individual/consumer-loans/deposit-secured?currency=AMD&amount=1000000&period=24",
+          "https://www.inecobank.am/hy/Individual/consumer-loans/deposit-secured/terms",
+          "https://www.inecobank.am/hy/Individual/consumer-loans/gold-pledge-secured?currency=AMD&amount=1000000&period=24"
         ],
         "deposits": [
           "https://www.inecobank.am/hy/Individual/Deposits"
         ],
         "branches": [
-          "https://www.rate.am/hy/bank/inecobank"
+          "https://www.inecobank.am/hy/map"
         ]
       }
     }
