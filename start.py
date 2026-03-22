@@ -420,9 +420,9 @@ def main():
     print_step(5, TOTAL_STEPS, "Starting LiveKit server")
     livekit_process = start_livekit_server()
 
-    # # Step 6: Scrape bank data
-    # print_step(6, TOTAL_STEPS, "Scraping bank data")
-    # run_scraper()
+    # Step 6: Scrape bank data
+    print_step(6, TOTAL_STEPS, "Scraping bank data")
+    run_scraper()
 
     # Step 7: Verify data 
     print_step(7, TOTAL_STEPS, "Verifying scraped data")
